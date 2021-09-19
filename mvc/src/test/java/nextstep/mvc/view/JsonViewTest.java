@@ -47,8 +47,8 @@ class JsonViewTest {
 
     @DisplayName("model data가 1개라면 data 내부의 필드 정보만을 반환한다.")
     @ParameterizedTest
-    @MethodSource("modelDatumParameters")
-    void modelDatum(Map<String, ?> model, String expectJson) throws IOException {
+    @MethodSource("modelSingleDataParameters")
+    void modelSingleData(Map<String, ?> model, String expectJson) throws IOException {
         // given
         StringWriter stringWriter = new StringWriter();
         PrintWriter printWriter = new PrintWriter(stringWriter);
@@ -81,7 +81,7 @@ class JsonViewTest {
         assertThat(stringWriter.toString()).isEqualTo(expectJson);
     }
 
-    private static Stream<Arguments> modelDatumParameters() throws JsonProcessingException {
+    private static Stream<Arguments> modelSingleDataParameters() throws JsonProcessingException {
         Map<String, Object> 라이언 = new HashMap<>();
         Map<String, Object> 인비 = new HashMap<>();
         Map<String, Object> 검프 = new HashMap<>();

@@ -30,10 +30,10 @@ public class JsonView implements View {
             return MAPPER.writeValueAsString(data);
         }
 
-        return MAPPER.writeValueAsString(toDatum(data));
+        return MAPPER.writeValueAsString(toSingleData(data));
     }
 
-    private Object toDatum(Map<String, ?> model) {
+    private Object toSingleData(Map<String, ?> model) {
         return model.values().toArray()[0];
     }
 
