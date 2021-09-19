@@ -30,12 +30,18 @@ class JsonViewTest {
     private JsonView jsonView;
     private HttpServletRequest request;
     private HttpServletResponse response;
+    private StringWriter stringWriter;
 
     @BeforeEach
-    void setUp() {
+    void setUp() throws IOException {
         jsonView = new JsonView();
         request = mock(HttpServletRequest.class);
         response = mock(HttpServletResponse.class);
+
+        stringWriter = new StringWriter();
+        PrintWriter printWriter = new PrintWriter(stringWriter);
+        when(response.getWriter()).thenReturn(printWriter);
+        doNothing().when(response).setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
     }
 
     @DisplayName("viewName 요청시 예외가 발생한다.")
@@ -49,15 +55,8 @@ class JsonViewTest {
     @ParameterizedTest
     @MethodSource("modelSingleDataParameters")
     void modelSingleData(Map<String, ?> model, String expectJson) throws IOException {
-        // given
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        when(response.getWriter()).thenReturn(printWriter);
-        doNothing().when(response).setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-
         // when
         jsonView.render(model, request, response);
-        printWriter.flush();
 
         // then
         assertThat(stringWriter.toString()).isEqualTo(expectJson);
@@ -67,15 +66,8 @@ class JsonViewTest {
     @ParameterizedTest
     @MethodSource("modelDataParameters")
     void modelData(Map<String, ?> model, String expectJson) throws IOException {
-        // given
-        StringWriter stringWriter = new StringWriter();
-        PrintWriter printWriter = new PrintWriter(stringWriter);
-        when(response.getWriter()).thenReturn(printWriter);
-        doNothing().when(response).setContentType(MediaType.APPLICATION_JSON_UTF8_VALUE);
-
         // when
         jsonView.render(model, request, response);
-        printWriter.flush();
 
         // then
         assertThat(stringWriter.toString()).isEqualTo(expectJson);
