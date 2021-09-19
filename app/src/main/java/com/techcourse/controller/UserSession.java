@@ -10,7 +10,7 @@ public class UserSession {
 
     public static final String SESSION_KEY = "user";
 
-    public static boolean isLoggedIn(HttpSession session) {
+    public static boolean isAlreadyLogin(HttpSession session) {
         return getUserFrom(session).isPresent();
     }
 

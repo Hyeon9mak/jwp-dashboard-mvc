@@ -28,7 +28,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public ModelAndView show(HttpServletRequest request, HttpServletResponse response) {
-        if (UserSession.isLoggedIn(request.getSession())) {
+        if (UserSession.isAlreadyLogin(request.getSession())) {
             User user = UserSession.getUser(request.getSession());
             LOG.debug("logged in {}", user.getAccount());
             return new ModelAndView(new JspView("redirect:/index.jsp"));
@@ -39,7 +39,7 @@ public class LoginController {
 
     @RequestMapping(value = "/login", method = RequestMethod.POST)
     public ModelAndView login(HttpServletRequest request, HttpServletResponse response) {
-        if (UserSession.isLoggedIn(request.getSession())) {
+        if (UserSession.isAlreadyLogin(request.getSession())) {
             return new ModelAndView(new JspView("redirect:/index.jsp"));
         }
 
